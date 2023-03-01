@@ -26,6 +26,7 @@ namespace love
 namespace window
 {
 
+
 static bool highDPIAllowed = false;
 
 // TODO: find a cleaner way to do this...
@@ -51,62 +52,62 @@ void Window::swapBuffers()
 {
 }
 
-bool Window::getConstant(const char *in, FullscreenType &out)
+bool Window::getConstant(const char *in, loveWindowFullscreenType &out)
 {
 	return fullscreenTypes.find(in, out);
 }
 
-bool Window::getConstant(FullscreenType in, const char *&out)
+bool Window::getConstant(loveWindowFullscreenType in, const char *&out)
 {
 	return fullscreenTypes.find(in, out);
 }
 
-std::vector<std::string> Window::getConstants(FullscreenType)
+std::vector<std::string> Window::getConstants(loveWindowFullscreenType)
 {
 	return fullscreenTypes.getNames();
 }
 
-bool Window::getConstant(const char *in, Setting &out)
+bool Window::getConstant(const char *in, loveWindowSetting &out)
 {
 	return settings.find(in, out);
 }
 
-bool Window::getConstant(Setting in, const char *&out)
+bool Window::getConstant(loveWindowSetting in, const char *&out)
 {
 	return settings.find(in, out);
 }
 
-bool Window::getConstant(const char *in, MessageBoxType &out)
+bool Window::getConstant(const char *in, loveWindowMessageBoxType &out)
 {
 	return messageBoxTypes.find(in, out);
 }
 
-bool Window::getConstant(MessageBoxType in, const char *&out)
+bool Window::getConstant(loveWindowMessageBoxType in, const char *&out)
 {
 	return messageBoxTypes.find(in, out);
 }
 
-std::vector<std::string> Window::getConstants(MessageBoxType)
+std::vector<std::string> Window::getConstants(loveWindowMessageBoxType)
 {
 	return messageBoxTypes.getNames();
 }
 
-bool Window::getConstant(const char *in, DisplayOrientation &out)
+bool Window::getConstant(const char *in, loveWindowDisplayOrientation &out)
 {
 	return orientations.find(in, out);
 }
 
-bool Window::getConstant(DisplayOrientation in, const char *&out)
+bool Window::getConstant(loveWindowDisplayOrientation in, const char *&out)
 {
 	return orientations.find(in, out);
 }
 
-std::vector<std::string> Window::getConstants(DisplayOrientation)
+std::vector<std::string> Window::getConstants(loveWindowDisplayOrientation)
 {
 	return orientations.getNames();
 }
 
-StringMap<Window::Setting, Window::SETTING_MAX_ENUM>::Entry Window::settingEntries[] =
+StringMap<loveWindowSetting, SETTING_MAX_ENUM>::Entry Window::settingEntries[] =
 {
 	{"fullscreen", SETTING_FULLSCREEN},
 	{"fullscreentype", SETTING_FULLSCREEN_TYPE},
@@ -119,7 +120,6 @@ StringMap<Window::Setting, Window::SETTING_MAX_ENUM>::Entry Window::settingEntri
 	{"minheight", SETTING_MIN_HEIGHT},
 	{"borderless", SETTING_BORDERLESS},
 	{"centered", SETTING_CENTERED},
-	{"displayindex", SETTING_DISPLAYINDEX},
 	{"display", SETTING_DISPLAY},
 	{"highdpi", SETTING_HIGHDPI},
 	{"usedpiscale", SETTING_USE_DPISCALE},
@@ -128,26 +128,26 @@ StringMap<Window::Setting, Window::SETTING_MAX_ENUM>::Entry Window::settingEntri
 	{"y", SETTING_Y},
 };
 
-StringMap<Window::Setting, Window::SETTING_MAX_ENUM> Window::settings(Window::settingEntries, sizeof(Window::settingEntries));
+StringMap<loveWindowSetting, SETTING_MAX_ENUM> Window::settings(Window::settingEntries, sizeof(Window::settingEntries));
 
-StringMap<Window::FullscreenType, Window::FULLSCREEN_MAX_ENUM>::Entry Window::fullscreenTypeEntries[] =
+StringMap<loveWindowFullscreenType, FULLSCREEN_MAX_ENUM>::Entry Window::fullscreenTypeEntries[] =
 {
 	{"exclusive", FULLSCREEN_EXCLUSIVE},
 	{"desktop", FULLSCREEN_DESKTOP},
 };
 
-StringMap<Window::FullscreenType, Window::FULLSCREEN_MAX_ENUM> Window::fullscreenTypes(Window::fullscreenTypeEntries, sizeof(Window::fullscreenTypeEntries));
+StringMap<loveWindowFullscreenType, FULLSCREEN_MAX_ENUM> Window::fullscreenTypes(Window::fullscreenTypeEntries, sizeof(Window::fullscreenTypeEntries));
 
-StringMap<Window::MessageBoxType, Window::MESSAGEBOX_MAX_ENUM>::Entry Window::messageBoxTypeEntries[] =
+StringMap<loveWindowMessageBoxType, MESSAGEBOX_MAX_ENUM>::Entry Window::messageBoxTypeEntries[] =
 {
 	{"error", MESSAGEBOX_ERROR},
 	{"warning", MESSAGEBOX_WARNING},
 	{"info", MESSAGEBOX_INFO},
 };
 
-StringMap<Window::MessageBoxType, Window::MESSAGEBOX_MAX_ENUM> Window::messageBoxTypes(Window::messageBoxTypeEntries, sizeof(Window::messageBoxTypeEntries));
+StringMap<loveWindowMessageBoxType, MESSAGEBOX_MAX_ENUM> Window::messageBoxTypes(Window::messageBoxTypeEntries, sizeof(Window::messageBoxTypeEntries));
 
-StringMap<Window::DisplayOrientation, Window::ORIENTATION_MAX_ENUM>::Entry Window::orientationEntries[] =
+StringMap<loveWindowDisplayOrientation, ORIENTATION_MAX_ENUM>::Entry Window::orientationEntries[] =
 {
 	{"unknown", ORIENTATION_UNKNOWN},
 	{"landscape", ORIENTATION_LANDSCAPE},
@@ -156,7 +156,7 @@ StringMap<Window::DisplayOrientation, Window::ORIENTATION_MAX_ENUM>::Entry Windo
 	{"portraitflipped", ORIENTATION_PORTRAIT_FLIPPED},
 };
 
-StringMap<Window::DisplayOrientation, Window::ORIENTATION_MAX_ENUM> Window::orientations(Window::orientationEntries, sizeof(Window::orientationEntries));
+StringMap<loveWindowDisplayOrientation, ORIENTATION_MAX_ENUM> Window::orientations(Window::orientationEntries, sizeof(Window::orientationEntries));
 
 } // window
 } // love

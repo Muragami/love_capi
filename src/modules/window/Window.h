@@ -32,6 +32,11 @@
 #include <string>
 #include <vector>
 
+// CAPI
+extern "C" {
+#include "Window.capi.h"	
+}
+
 namespace love
 {
 
@@ -47,62 +52,9 @@ namespace window
 void setHighDPIAllowed(bool enable);
 bool isHighDPIAllowed();
 
-// Forward-declared so it can be used in the class methods. We can't define the
-// whole thing here because it uses the Window::Type enum.
-struct WindowSettings;
-
 class Window : public Module
 {
 public:
-
-	// Different window settings.
-	enum Setting
-	{
-		SETTING_FULLSCREEN,
-		SETTING_FULLSCREEN_TYPE,
-		SETTING_VSYNC,
-		SETTING_MSAA,
-		SETTING_STENCIL,
-		SETTING_DEPTH,
-		SETTING_RESIZABLE,
-		SETTING_MIN_WIDTH,
-		SETTING_MIN_HEIGHT,
-		SETTING_BORDERLESS,
-		SETTING_CENTERED,
-		SETTING_DISPLAYINDEX,
-		SETTING_DISPLAY, // Deprecated
-		SETTING_HIGHDPI, // Deprecated
-		SETTING_USE_DPISCALE,
-		SETTING_REFRESHRATE,
-		SETTING_X,
-		SETTING_Y,
-		SETTING_MAX_ENUM
-	};
-
-	enum FullscreenType
-	{
-		FULLSCREEN_EXCLUSIVE,
-		FULLSCREEN_DESKTOP,
-		FULLSCREEN_MAX_ENUM
-	};
-
-	enum MessageBoxType
-	{
-		MESSAGEBOX_ERROR,
-		MESSAGEBOX_WARNING,
-		MESSAGEBOX_INFO,
-		MESSAGEBOX_MAX_ENUM
-	};
-
-	enum DisplayOrientation
-	{
-		ORIENTATION_UNKNOWN,
-		ORIENTATION_LANDSCAPE,
-		ORIENTATION_LANDSCAPE_FLIPPED,
-		ORIENTATION_PORTRAIT,
-		ORIENTATION_PORTRAIT_FLIPPED,
-		ORIENTATION_MAX_ENUM
-	};
 
 	struct WindowSize
 	{
@@ -117,7 +69,7 @@ public:
 
 	struct MessageBoxData
 	{
-		MessageBoxType type;
+		loveWindowMessageBoxType type;
 
 		std::string title;
 		std::string message;
@@ -141,7 +93,7 @@ public:
 
 	virtual void close() = 0;
 
-	virtual bool setFullscreen(bool fullscreen, FullscreenType fstype) = 0;
+	virtual bool setFullscreen(bool fullscreen, loveWindowFullscreenType fstype) = 0;
 	virtual bool setFullscreen(bool fullscreen) = 0;
 
 	virtual bool onSizeChanged(int width, int height) = 0;
@@ -150,7 +102,7 @@ public:
 
 	virtual const char *getDisplayName(int displayindex) const = 0;
 
-	virtual DisplayOrientation getDisplayOrientation(int displayindex) const = 0;
+	virtual loveWindowDisplayOrientation getDisplayOrientation(int displayindex) const = 0;
 
 	virtual std::vector<WindowSize> getFullscreenSizes(int displayindex) const = 0;
 
@@ -216,62 +168,42 @@ public:
 
 	virtual const void *getHandle() const = 0;
 
-	virtual bool showMessageBox(const std::string &title, const std::string &message, MessageBoxType type, bool attachtowindow) = 0;
+	virtual bool showMessageBox(const std::string &title, const std::string &message, loveWindowMessageBoxType type, bool attachtowindow) = 0;
 	virtual int showMessageBox(const MessageBoxData &data) = 0;
 
 	virtual void requestAttention(bool continuous) = 0;
 
-	static bool getConstant(const char *in, Setting &out);
-	static bool getConstant(Setting in, const char *&out);
+	static bool getConstant(const char *in, loveWindowSetting &out);
+	static bool getConstant(loveWindowSetting in, const char *&out);
 
-	static bool getConstant(const char *in, FullscreenType &out);
-	static bool getConstant(FullscreenType in, const char *&out);
-	static std::vector<std::string> getConstants(FullscreenType);
+	static bool getConstant(const char *in, loveWindowFullscreenType &out);
+	static bool getConstant(loveWindowFullscreenType in, const char *&out);
+	static std::vector<std::string> getConstants(loveWindowFullscreenType);
 
-	static bool getConstant(const char *in, MessageBoxType &out);
-	static bool getConstant(MessageBoxType in, const char *&out);
-	static std::vector<std::string> getConstants(MessageBoxType);
+	static bool getConstant(const char *in, loveWindowMessageBoxType &out);
+	static bool getConstant(loveWindowMessageBoxType in, const char *&out);
+	static std::vector<std::string> getConstants(loveWindowMessageBoxType);
 
-	static bool getConstant(const char *in, DisplayOrientation &out);
-	static bool getConstant(DisplayOrientation in, const char *&out);
-	static std::vector<std::string> getConstants(DisplayOrientation);
+	static bool getConstant(const char *in, loveWindowDisplayOrientation &out);
+	static bool getConstant(loveWindowDisplayOrientation in, const char *&out);
+	static std::vector<std::string> getConstants(loveWindowDisplayOrientation);
 
 private:
 
-	static StringMap<Setting, SETTING_MAX_ENUM>::Entry settingEntries[];
-	static StringMap<Setting, SETTING_MAX_ENUM> settings;
+	static StringMap<loveWindowSetting, SETTING_MAX_ENUM>::Entry settingEntries[];
+	static StringMap<loveWindowSetting, SETTING_MAX_ENUM> settings;
 
-	static StringMap<FullscreenType, FULLSCREEN_MAX_ENUM>::Entry fullscreenTypeEntries[];
-	static StringMap<FullscreenType, FULLSCREEN_MAX_ENUM> fullscreenTypes;
+	static StringMap<loveWindowFullscreenType, FULLSCREEN_MAX_ENUM>::Entry fullscreenTypeEntries[];
+	static StringMap<loveWindowFullscreenType, FULLSCREEN_MAX_ENUM> fullscreenTypes;
 
-	static StringMap<MessageBoxType, MESSAGEBOX_MAX_ENUM>::Entry messageBoxTypeEntries[];
-	static StringMap<MessageBoxType, MESSAGEBOX_MAX_ENUM> messageBoxTypes;
+	static StringMap<loveWindowMessageBoxType, MESSAGEBOX_MAX_ENUM>::Entry messageBoxTypeEntries[];
+	static StringMap<loveWindowMessageBoxType, MESSAGEBOX_MAX_ENUM> messageBoxTypes;
 
-	static StringMap<DisplayOrientation, ORIENTATION_MAX_ENUM>::Entry orientationEntries[];
-	static StringMap<DisplayOrientation, ORIENTATION_MAX_ENUM> orientations;
+	static StringMap<loveWindowDisplayOrientation, ORIENTATION_MAX_ENUM>::Entry orientationEntries[];
+	static StringMap<loveWindowDisplayOrientation, ORIENTATION_MAX_ENUM> orientations;
 
 }; // Window
 
-struct WindowSettings
-{
-	bool fullscreen = false;
-	Window::FullscreenType fstype = Window::FULLSCREEN_DESKTOP;
-	int vsync = 1;
-	int msaa = 0;
-	bool stencil = true;
-	int depth = 0;
-	bool resizable = false;
-	int minwidth = 1;
-	int minheight = 1;
-	bool borderless = false;
-	bool centered = true;
-	int displayindex = 0;
-	bool usedpiscale = true;
-	double refreshrate = 0.0;
-	bool useposition = false;
-	int x = 0;
-	int y = 0;
-};
 
 } // window
 } // love
