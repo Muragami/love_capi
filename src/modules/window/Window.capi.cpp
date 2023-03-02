@@ -22,4 +22,6 @@
 #include "Window.h"
 
 
-
+const WindowSettings DefaultWindowSettings = {
+    false, FULLSCREEN_DESKTOP, 1, 0, TRUE, 0, FALSE, 1, 1, FALSE, TRUE, 0, FALSE, TRUE, 0, FALSE, 0, 0
+};
