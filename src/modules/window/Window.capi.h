@@ -18,16 +18,10 @@
  * 3. This notice may not be removed or altered from any source distribution.
  **/
 
-#ifndef TRUE 
-#define TRUE 1
-#endif
-
-#ifndef FALSE 
-#define FALSE 0
-#endif
+#include "capi.h"
 
 // Different window settings.
-enum loveWindowSetting
+enum windowSetting
 {
     SETTING_FULLSCREEN,
     SETTING_FULLSCREEN_TYPE,
@@ -49,14 +43,14 @@ enum loveWindowSetting
     SETTING_MAX_ENUM
 };
 
-enum loveWindowFullscreenType
+enum windowFullscreenType
 {
     FULLSCREEN_EXCLUSIVE,
     FULLSCREEN_DESKTOP,
     FULLSCREEN_MAX_ENUM
 };
 
-enum loveWindowMessageBoxType
+enum windowMessageBoxType
 {
     MESSAGEBOX_ERROR,
     MESSAGEBOX_WARNING,
@@ -64,7 +58,7 @@ enum loveWindowMessageBoxType
     MESSAGEBOX_MAX_ENUM
 };
 
-enum loveWindowDisplayOrientation
+enum windowDisplayOrientation
 {
     ORIENTATION_UNKNOWN,
     ORIENTATION_LANDSCAPE,
@@ -74,15 +68,15 @@ enum loveWindowDisplayOrientation
     ORIENTATION_MAX_ENUM
 };
 
-typedef struct _loveWindowSize {
+typedef struct _windowSize {
     int width;
     int height;
-} loveWindowSize;
+} windowSize;
 
-typedef struct _WindowSettings
+typedef struct _windowSettings
 {
     int fullscreen;
-    loveWindowFullscreenType fstype;
+    enum windowFullscreenType fstype;
     int vsync;
     int msaa;
     int stencil;
@@ -92,70 +86,67 @@ typedef struct _WindowSettings
     int minheight;
     int borderless;
     int centered;
-    int display;
+    int displayindex;
     int highdpi;
     int usedpiscale;
     double refreshrate;
     int useposition;
     int x;
     int y;
-} WindowSettings;
+} windowSettings;
 
-extern const WindowSettings DefaultWindowSettings;
+extern const windowSettings DefaultWindowSettings;
 
-void *loveWindowNew();
-void loveWindowDelete(void *win);
-int loveWindowSetWindow(void *win, int width, int height, WindowSettings *settings);
-void loveWindowGetWindow(void *win, int &width, int &height, WindowSettings &settings);
-void loveWindowClose(void *win);
-int loveWindowSetFullscreenType(void *win, int fullscreen, loveWindowFullscreenType fstype);
-int loveWindowSetFullscreen(void *win, int fullscreen);
+LoveObject *windowNew(loveErrorHandler err, void *user);
+void windowDelete(LoveObject *win);
+void windowSetDefaultSettings(windowSettings *settings);
+int windowSetWindow(LoveObject *win, int width, int height, windowSettings *settings);
+void windowGetWindow(LoveObject *win, int *width, int *height, windowSettings *settings);
+void windowClose(LoveObject *win);
+int windowSetFullscreenType(LoveObject *win, int fullscreen, enum windowFullscreenType fstype);
+int windowSetFullscreen(LoveObject *win, int fullscreen);
 // int onSizeChanged(int width, int height) ;
-int loveWindowGetDisplayCount(void *win);
- char *loveWindowGetDisplayName(void *win, int displayindex);
-loveWindowDisplayOrientation loveWindowGetDisplayOrientation(void *win, int displayindex);
+int windowGetDisplayCount(LoveObject *win);
+const char *windowGetDisplayName(LoveObject *win, int displayindex);
+enum windowDisplayOrientation windowGetDisplayOrientation(LoveObject *win, int displayindex);
 // wrap the C++ STL for this one
-typedef void (*loveWindowFullscreenSizeCallback)(int i, loveWindowSize sz, void *upointer);
-void loveWindowGetFullscreenSizes(void *win, int displayindex, loveWindowFullscreenSizeCallback callback, void *upointer);
-void loveWindowGetDesktopDimensions(void *win, int displayindex, int &width, int &height);
-void loveWindowSetPosition(void *win, int x, int y, int displayindex);
-void loveWindowGetPosition(void *win, int &x, int &y, int &displayindex);
-// Rect loveWindowGetSafeArea();
-int loveWindowIsOpen(void *win);
-void loveWindowSetWindowTitle(void *win, const char *title);
-const char*loveWindowGetWindowTitle(void *win);
-// int loveWindowSetIcon(love::image::ImageData *imgd);
+typedef void (*windowFullscreenSizeCallback)(int i, windowSize sz, void *upointer);
+void windowGetFullscreenSizes(LoveObject *win, int displayindex, windowFullscreenSizeCallback callback, void *upointer);
+void windowGetDesktopDimensions(LoveObject *win, int displayindex, int *width, int *height);
+void windowSetPosition(LoveObject *win, int x, int y, int displayindex);
+void windowGetPosition(LoveObject *win, int *x, int *y, int *displayindex);
+// Rect windowGetSafeArea();
+int windowIsOpen(LoveObject *win);
+void windowSetWindowTitle(LoveObject *win, const char *title);
+const char*windowGetWindowTitle(LoveObject *win);
+// int windowSetIcon(love::image::ImageData *imgd);
 // love::image::ImageData *getIcon() ;
-void loveWindowSetVSync(void *win, int vsync);
-int loveWindowGetVSync(void *win);
-void loveWindowSetDisplaySleepEnabled(void *win, int enable);
-int loveWindowIsDisplaySleepEnabled(void *win);
-void loveWindowMinimize(void *win);
-void loveWindowMaximize(void *win);
-void loveWindowRestore(void *win);
-int loveWindowIsMaximized(void *win);
-int loveWindowIsMinimized(void *win);
-int loveWindowHasFocus(void *win);
-int loveWindowHasMouseFocus(void *win);
-int loveWindowIsVisible(void *win);
-void loveWindowSetMouseGrab(void *win, int grab);
-int loveWindowIsMouseGrabbed(void *win);
-int loveWindowGetWidth(void *win);
-int loveWindowGetHeight(void *win);
-int loveWindowGetPixelWidth(void *win);
-int loveWindowGetPixelHeight(void *win);
+void windowSetVSync(LoveObject *win, int vsync);
+int windowGetVSync(LoveObject *win);
+void windowSetDisplaySleepEnabled(LoveObject *win, int enable);
+int windowIsDisplaySleepEnabled(LoveObject *win);
+void windowMinimize(LoveObject *win);
+void windowMaximize(LoveObject *win);
+void windowRestore(LoveObject *win);
+int windowIsMaximized(LoveObject *win);
+int windowIsMinimized(LoveObject *win);
+int windowHasFocus(LoveObject *win);
+int windowHasMouseFocus(LoveObject *win);
+int windowIsVisible(LoveObject *win);
+void windowSetMouseGrab(LoveObject *win, int grab);
+int windowIsMouseGrabbed(LoveObject *win);
 // Note: window-space coordinates are not necessarily the same as
 // density-independent units (which toPixels and fromPixels use.)
-void loveWindowWindowToPixelCoords(void *win, double *x, double *y);
-void loveWindowPixelToWindowCoords(void *win, double *x, double *y);
-void loveWindowWindowToDPICoords(void *win, double *x, double *y);
-void loveWindowDPIToWindowCoords(void *win, double *x, double *y);
-double loveWindowGetDPIScale(void *win);
-double loveWindowGetNativeDPIScale(void *win);
-double loveWindowToPixels(void *win, double x);
-void loveWindowToPixelsXY(void *win, double wx, double wy, double &px, double &py);
-double loveWindowFromPixels(void *win, double x);
-void loveWindowFromPixelsXY(void *win, double px, double py, double &wx, double &wy);
-void *loveWindowGetHandle(void *win);
-int loveWindowShowMessageBox(void *win, const char *title, const char *message, loveWindowMessageBoxType type, int attachtowindow);
-void loveWindowRequestAttention(void *win, int continuous);
+void windowWindowToPixelCoords(LoveObject *win, double *x, double *y);
+void windowPixelToWindowCoords(LoveObject *win, double *x, double *y);
+void windowWindowToDPICoords(LoveObject *win, double *x, double *y);
+void windowDPIToWindowCoords(LoveObject *win, double *x, double *y);
+double windowGetDPIScale(LoveObject *win);
+double windowGetNativeDPIScale(LoveObject *win);
+double windowToPixels(LoveObject *win, double x);
+void windowToPixelsXY(LoveObject *win, double wx, double wy, double *px, double *py);
+double windowFromPixels(LoveObject *win, double x);
+void windowFromPixelsXY(LoveObject *win, double px, double py, double *wx, double *wy);
+void *windowGetHandle(LoveObject *win);
+int windowShowMessageBox(LoveObject *win, const char *title, const char *message, enum windowMessageBoxType type, int attachtowindow);
+void windowRequestAttention(LoveObject *win, int continuous);

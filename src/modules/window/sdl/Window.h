@@ -27,7 +27,7 @@
 #include "graphics/Graphics.h"
 
 // SDL
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 namespace love
 {
@@ -45,12 +45,12 @@ public:
 
 	void setGraphics(graphics::Graphics *graphics) override;
 
-	bool setWindow(int width = 800, int height = 600, WindowSettings *settings = nullptr) override;
-	void getWindow(int &width, int &height, WindowSettings &settings) override;
+	bool setWindow(int width = 800, int height = 600, windowSettings *settings = nullptr) override;
+	void getWindow(int &width, int &height, windowSettings &settings) override;
 
 	void close() override;
 
-	bool setFullscreen(bool fullscreen, FullscreenType fstype) override;
+	bool setFullscreen(bool fullscreen, windowFullscreenType fstype) override;
 	bool setFullscreen(bool fullscreen) override;
 
 	bool onSizeChanged(int width, int height) override;
@@ -59,7 +59,7 @@ public:
 
 	const char *getDisplayName(int displayindex) const override;
 
-	DisplayOrientation getDisplayOrientation(int displayindex) const override;
+	windowDisplayOrientation getDisplayOrientation(int displayindex) const override;
 
 	std::vector<WindowSize> getFullscreenSizes(int displayindex) const override;
 
@@ -122,7 +122,7 @@ public:
 
 	const void *getHandle() const override;
 
-	bool showMessageBox(const std::string &title, const std::string &message, MessageBoxType type, bool attachtowindow) override;
+	bool showMessageBox(const std::string &title, const std::string &message, windowMessageBoxType type, bool attachtowindow) override;
 	int showMessageBox(const MessageBoxData &data) override;
 
 	void requestAttention(bool continuous) override;
@@ -148,9 +148,9 @@ private:
 	bool createWindowAndContext(int x, int y, int w, int h, Uint32 windowflags, graphics::Renderer renderer);
 
 	// Update the saved window settings based on the window's actual state.
-	void updateSettings(const WindowSettings &newsettings, bool updateGraphicsViewport);
+	void updateSettings(const windowSettings &newsettings, bool updateGraphicsViewport);
 
-	SDL_MessageBoxFlags convertMessageBoxType(MessageBoxType type) const;
+	SDL_MessageBoxFlags convertMessageBoxType(windowMessageBoxType type) const;
 
 	std::string title;
 
@@ -158,7 +158,7 @@ private:
 	int windowHeight = 600;
 	int pixelWidth   = 800;
 	int pixelHeight  = 600;
-	WindowSettings settings;
+	windowSettings settings;
 	StrongRef<love::image::ImageData> icon;
 
 	bool open;

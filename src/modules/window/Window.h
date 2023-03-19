@@ -69,7 +69,7 @@ public:
 
 	struct MessageBoxData
 	{
-		loveWindowMessageBoxType type;
+		windowMessageBoxType type;
 
 		std::string title;
 		std::string message;
@@ -88,12 +88,12 @@ public:
 
 	virtual void setGraphics(graphics::Graphics *graphics) = 0;
 
-	virtual bool setWindow(int width = 800, int height = 600, WindowSettings *settings = nullptr) = 0;
-	virtual void getWindow(int &width, int &height, WindowSettings &settings) = 0;
+	virtual bool setWindow(int width = 800, int height = 600, windowSettings *settings = nullptr) = 0;
+	virtual void getWindow(int &width, int &height, windowSettings &settings) = 0;
 
 	virtual void close() = 0;
 
-	virtual bool setFullscreen(bool fullscreen, loveWindowFullscreenType fstype) = 0;
+	virtual bool setFullscreen(bool fullscreen, windowFullscreenType fstype) = 0;
 	virtual bool setFullscreen(bool fullscreen) = 0;
 
 	virtual bool onSizeChanged(int width, int height) = 0;
@@ -102,7 +102,7 @@ public:
 
 	virtual const char *getDisplayName(int displayindex) const = 0;
 
-	virtual loveWindowDisplayOrientation getDisplayOrientation(int displayindex) const = 0;
+	virtual windowDisplayOrientation getDisplayOrientation(int displayindex) const = 0;
 
 	virtual std::vector<WindowSize> getFullscreenSizes(int displayindex) const = 0;
 
@@ -168,39 +168,39 @@ public:
 
 	virtual const void *getHandle() const = 0;
 
-	virtual bool showMessageBox(const std::string &title, const std::string &message, loveWindowMessageBoxType type, bool attachtowindow) = 0;
+	virtual bool showMessageBox(const std::string &title, const std::string &message, windowMessageBoxType type, bool attachtowindow) = 0;
 	virtual int showMessageBox(const MessageBoxData &data) = 0;
 
 	virtual void requestAttention(bool continuous) = 0;
 
-	static bool getConstant(const char *in, loveWindowSetting &out);
-	static bool getConstant(loveWindowSetting in, const char *&out);
+	static bool getConstant(const char *in, windowSetting &out);
+	static bool getConstant(windowSetting in, const char *&out);
 
-	static bool getConstant(const char *in, loveWindowFullscreenType &out);
-	static bool getConstant(loveWindowFullscreenType in, const char *&out);
-	static std::vector<std::string> getConstants(loveWindowFullscreenType);
+	static bool getConstant(const char *in, windowFullscreenType &out);
+	static bool getConstant(windowFullscreenType in, const char *&out);
+	static std::vector<std::string> getConstants(windowFullscreenType);
 
-	static bool getConstant(const char *in, loveWindowMessageBoxType &out);
-	static bool getConstant(loveWindowMessageBoxType in, const char *&out);
-	static std::vector<std::string> getConstants(loveWindowMessageBoxType);
+	static bool getConstant(const char *in, windowMessageBoxType &out);
+	static bool getConstant(windowMessageBoxType in, const char *&out);
+	static std::vector<std::string> getConstants(windowMessageBoxType);
 
-	static bool getConstant(const char *in, loveWindowDisplayOrientation &out);
-	static bool getConstant(loveWindowDisplayOrientation in, const char *&out);
-	static std::vector<std::string> getConstants(loveWindowDisplayOrientation);
+	static bool getConstant(const char *in, windowDisplayOrientation &out);
+	static bool getConstant(windowDisplayOrientation in, const char *&out);
+	static std::vector<std::string> getConstants(windowDisplayOrientation);
 
 private:
 
-	static StringMap<loveWindowSetting, SETTING_MAX_ENUM>::Entry settingEntries[];
-	static StringMap<loveWindowSetting, SETTING_MAX_ENUM> settings;
+	static StringMap<windowSetting, SETTING_MAX_ENUM>::Entry settingEntries[];
+	static StringMap<windowSetting, SETTING_MAX_ENUM> settings;
 
-	static StringMap<loveWindowFullscreenType, FULLSCREEN_MAX_ENUM>::Entry fullscreenTypeEntries[];
-	static StringMap<loveWindowFullscreenType, FULLSCREEN_MAX_ENUM> fullscreenTypes;
+	static StringMap<windowFullscreenType, FULLSCREEN_MAX_ENUM>::Entry fullscreenTypeEntries[];
+	static StringMap<windowFullscreenType, FULLSCREEN_MAX_ENUM> fullscreenTypes;
 
-	static StringMap<loveWindowMessageBoxType, MESSAGEBOX_MAX_ENUM>::Entry messageBoxTypeEntries[];
-	static StringMap<loveWindowMessageBoxType, MESSAGEBOX_MAX_ENUM> messageBoxTypes;
+	static StringMap<windowMessageBoxType, MESSAGEBOX_MAX_ENUM>::Entry messageBoxTypeEntries[];
+	static StringMap<windowMessageBoxType, MESSAGEBOX_MAX_ENUM> messageBoxTypes;
 
-	static StringMap<loveWindowDisplayOrientation, ORIENTATION_MAX_ENUM>::Entry orientationEntries[];
-	static StringMap<loveWindowDisplayOrientation, ORIENTATION_MAX_ENUM> orientations;
+	static StringMap<windowDisplayOrientation, ORIENTATION_MAX_ENUM>::Entry orientationEntries[];
+	static StringMap<windowDisplayOrientation, ORIENTATION_MAX_ENUM> orientations;
 
 }; // Window
 

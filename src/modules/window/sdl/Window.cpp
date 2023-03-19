@@ -44,10 +44,10 @@
 #include <cstdio>
 
 // SDL
-#include <SDL_syswm.h>
+#include <SDL2/SDL_syswm.h>
 
 #ifdef LOVE_GRAPHICS_VULKAN
-#include <SDL_vulkan.h>
+#include <SDL2/SDL_vulkan.h>
 #endif
 
 #if defined(LOVE_WINDOWS)
@@ -464,7 +464,7 @@ bool Window::createWindowAndContext(int x, int y, int w, int h, Uint32 windowfla
 	return true;
 }
 
-bool Window::setWindow(int width, int height, WindowSettings *settings)
+bool Window::setWindow(int width, int height, windowSettings *settings)
 {
 	if (!graphics.get())
 		graphics.set(Module::getInstance<graphics::Graphics>(Module::M_GRAPHICS));
@@ -477,7 +477,7 @@ bool Window::setWindow(int width, int height, WindowSettings *settings)
 	if (isOpen())
 		updateSettings(this->settings, false);
 
-	WindowSettings f;
+	windowSettings f;
 
 	if (settings)
 		f = *settings;
@@ -693,7 +693,7 @@ bool Window::onSizeChanged(int width, int height)
 	return true;
 }
 
-void Window::updateSettings(const WindowSettings &newsettings, bool updateGraphicsViewport)
+void Window::updateSettings(const windowSettings &newsettings, bool updateGraphicsViewport)
 {
 	Uint32 wflags = SDL_GetWindowFlags(window);
 
@@ -775,7 +775,7 @@ void Window::updateSettings(const WindowSettings &newsettings, bool updateGraphi
 	}
 }
 
-void Window::getWindow(int &width, int &height, WindowSettings &newsettings)
+void Window::getWindow(int &width, int &height, windowSettings &newsettings)
 {
 	// The window might have been modified (moved, resized, etc.) by the user.
 	if (window)
@@ -828,7 +828,7 @@ void Window::close(bool allowExceptions)
 	open = false;
 }
 
-bool Window::setFullscreen(bool fullscreen, FullscreenType fstype)
+bool Window::setFullscreen(bool fullscreen, windowFullscreenType fstype)
 {
 	if (!window)
 		return false;
@@ -836,7 +836,7 @@ bool Window::setFullscreen(bool fullscreen, FullscreenType fstype)
 	if (graphics.get() && graphics->isRenderTargetActive())
 		throw love::Exception("love.window.setFullscreen cannot be called while a render target is active in love.graphics.");
 
-	WindowSettings newsettings = settings;
+	windowSettings newsettings = settings;
 	newsettings.fullscreen = fullscreen;
 	newsettings.fstype = fstype;
 
@@ -895,7 +895,7 @@ const char *Window::getDisplayName(int displayindex) const
 	return name;
 }
 
-Window::DisplayOrientation Window::getDisplayOrientation(int displayindex) const
+windowDisplayOrientation Window::getDisplayOrientation(int displayindex) const
 {
 	switch (SDL_GetDisplayOrientation(displayindex))
 	{
@@ -1395,7 +1395,7 @@ const void *Window::getHandle() const
 	return window;
 }
 
-SDL_MessageBoxFlags Window::convertMessageBoxType(MessageBoxType type) const
+SDL_MessageBoxFlags Window::convertMessageBoxType(windowMessageBoxType type) const
 {
 	switch (type)
 	{
@@ -1409,7 +1409,7 @@ SDL_MessageBoxFlags Window::convertMessageBoxType(MessageBoxType type) const
 	}
 }
 
-bool Window::showMessageBox(const std::string &title, const std::string &message, MessageBoxType type, bool attachtowindow)
+bool Window::showMessageBox(const std::string &title, const std::string &message, windowMessageBoxType type, bool attachtowindow)
 {
 	SDL_MessageBoxFlags flags = convertMessageBoxType(type);
 	SDL_Window *sdlwindow = attachtowindow ? window : nullptr;

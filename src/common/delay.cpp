@@ -20,7 +20,7 @@
 
 #include "delay.h"
 
-#include <SDL_timer.h>
+#include <SDL2/SDL_timer.h>
 
 namespace love
 {
