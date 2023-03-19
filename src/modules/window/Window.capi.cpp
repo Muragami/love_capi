@@ -232,56 +232,46 @@ int windowIsMouseGrabbed(LoveObject *win) {
     return instance()->isMouseGrabbed() == true ? TRUE : FALSE;
 }
 
-// Note: window-space coordinates are not necessarily the same as
-// density-independent units (which toPixels and fromPixels use.)
-void windowWindowToPixelCoords(LoveObject *win, double *x, double *y) {
-
-}
-
-void windowPixelToWindowCoords(LoveObject *win, double *x, double *y) {
-
-}
-
-void windowWindowToDPICoords(LoveObject *win, double *x, double *y) {
-
-}
-
-void windowDPIToWindowCoords(LoveObject *win, double *x, double *y) {
-
-}
-
 double windowGetDPIScale(LoveObject *win) {
-
+    return instance()->getDPIScale();
 }
 
 double windowGetNativeDPIScale(LoveObject *win) {
-
+    return instance()->getNativeDPIScale();
 }
 
 double windowToPixels(LoveObject *win, double x) {
-
+    return instance()->toPixels(x);
 }
 
 void windowToPixelsXY(LoveObject *win, double wx, double wy, double *px, double *py) {
-
+    double _px, _py;
+    instance()->toPixels(wx, wy, _px, _py);
+    *px = _px;
+    *py = _py;
 }
 
 double windowFromPixels(LoveObject *win, double x) {
-
+    return instance()->fromPixels(x);
 }
 
 void windowFromPixelsXY(LoveObject *win, double px, double py, double *wx, double *wy) {
-
+    double _wx, _wy;
+    instance()->fromPixels(px, py, _wx, _wy);
+    *wx = _wx;
+    *wy = _wy;
 }
 
-void *windowGetHandle(LoveObject *win) {
-
+const void *windowGetHandle(LoveObject *win) {
+    return instance()->getHandle();
 }
 
 int windowShowMessageBox(LoveObject *win, const char *title, const char *message, windowMessageBoxType type, int attachtowindow) {
-
+    bool ret;
+    ret = instance()->showMessageBox(title, message, type, attachtowindow);
+    return ret == true ? TRUE : FALSE;
 }
 
 void windowRequestAttention(LoveObject *win, int continuous) {
-
+    instance()->requestAttention(continuous);
 }

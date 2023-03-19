@@ -137,16 +137,12 @@ void windowSetMouseGrab(LoveObject *win, int grab);
 int windowIsMouseGrabbed(LoveObject *win);
 // Note: window-space coordinates are not necessarily the same as
 // density-independent units (which toPixels and fromPixels use.)
-void windowWindowToPixelCoords(LoveObject *win, double *x, double *y);
-void windowPixelToWindowCoords(LoveObject *win, double *x, double *y);
-void windowWindowToDPICoords(LoveObject *win, double *x, double *y);
-void windowDPIToWindowCoords(LoveObject *win, double *x, double *y);
 double windowGetDPIScale(LoveObject *win);
 double windowGetNativeDPIScale(LoveObject *win);
 double windowToPixels(LoveObject *win, double x);
 void windowToPixelsXY(LoveObject *win, double wx, double wy, double *px, double *py);
 double windowFromPixels(LoveObject *win, double x);
 void windowFromPixelsXY(LoveObject *win, double px, double py, double *wx, double *wy);
-void *windowGetHandle(LoveObject *win);
+const void *windowGetHandle(LoveObject *win);
 int windowShowMessageBox(LoveObject *win, const char *title, const char *message, enum windowMessageBoxType type, int attachtowindow);
 void windowRequestAttention(LoveObject *win, int continuous);
